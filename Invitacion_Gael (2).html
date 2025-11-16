@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invitación 15 años – Alberto Gael</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #020615;
+      color: #e4f5ff;
+    }
+
+    /* Fondo con la imagen de Hollow Knight */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background-image: url("https://cdn.wikimg.net/en/hkwiki/images/thumb/b/b1/HK_Welcome_Image.png/500px-HK_Welcome_Image.png");
+      background-size: cover;
+      background-position: center;
+      filter: blur(3px) brightness(0.85);
+      transform: scale(1.05);
+      animation: floatBg 18s ease-in-out infinite alternate;
+      z-index: -2;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(0, 180, 255, 0.35), transparent 50%),
+                  radial-gradient(circle at bottom, rgba(3, 10, 40, 0.95), #020615 80%);
+      z-index: -1;
+    }
+
+    @keyframes floatBg {
+      0%   { transform: scale(1.05) translateY(0); }
+      100% { transform: scale(1.1) translateY(-10px); }
+    }
+
+    #app {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      min-height: 70vh;
+      background: linear-gradient(145deg, rgba(3, 18, 50, 0.92), rgba(2, 7, 30, 0.98));
+      border-radius: 24px;
+      padding: 20px 18px 16px;
+      box-shadow:
+        0 0 0 1px rgba(0, 200, 255, 0.15),
+        0 24px 40px rgba(0, 0, 0, 0.75);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .frame {
+      position: absolute;
+      inset: 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(96, 232, 255, 0.18);
+      pointer-events: none;
+      box-shadow: 0 0 20px rgba(0, 226, 255, 0.18) inset;
+    }
+
+    .hk-badge {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      opacity: 0.2;
+      transform: rotate(-12deg);
+      pointer-events: none;
+    }
+
+    .hk-badge img {
+      width: 100%;
+      filter: drop-shadow(0 0 12px rgba(0, 238, 255, 0.9));
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      padding: 2px;
+      background: radial-gradient(circle at top, #60e8ff, #004b9b);
+      box-shadow: 0 0 18px rgba(0, 226, 255, 0.6);
+      flex-shrink: 0;
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-image: url("https://cdn.wikimg.net/en/hkwiki/images/thumb/b/b1/HK_Welcome_Image.png/500px-HK_Welcome_Image.png");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.2);
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #7fdfff;
+      opacity: 0.85;
+    }
+
+    .main-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .main-title span.highlight {
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, #6ef1ff, #a4e3ff);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 18px rgba(0, 245, 255, 0.9);
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: #b8dfff;
+      opacity: 0.9;
+    }
+
+    .slide {
+      margin-top: 8px;
+      flex: 1;
+      border-radius: 20px;
+      background: radial-gradient(circle at top, rgba(49, 117, 255, 0.16), rgba(0, 8, 24, 0.95));
+      padding: 16px 14px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .slide-bg-icon {
+      position: absolute;
+      bottom: -10px;
+      right: -18px;
+      width: 120px;
+      opacity: 0.1;
+      filter: grayscale(1) drop-shadow(0 0 20px rgba(0, 188, 255, 0.8));
+      transform: rotate(8deg);
+    }
+
+    .slide-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #e9f7ff;
+      text-shadow: 0 0 12px rgba(0, 234, 255, 0.8);
+    }
+
+    .slide-kicker {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #86ddff;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .slide-text {
+      font-size: 0.94rem;
+      line-height: 1.5;
+      color: #d1edff;
+    }
+
+    .slide-text strong {
+      color: #86e5ff;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(117, 230, 255, 0.6);
+      font-size: 0.72rem;
+      color: #bfe9ff;
+      background: linear-gradient(120deg, rgba(0, 61, 115, 0.8), rgba(6, 21, 60, 0.9));
+      box-shadow: 0 0 6px rgba(0, 186, 255, 0.4);
+      white-space: nowrap;
+    }
+
+    .map-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 238, 255, 0.9);
+      background: radial-gradient(circle at top left, rgba(70, 212, 255, 0.4), rgba(3, 15, 50, 0.9));
+      color: #e9fbff;
+      font-size: 0.86rem;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 0 16px rgba(0, 238, 255, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-button span.icon {
+      font-size: 1.1rem;
+    }
+
+    .map-button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 80%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+      transform: skewX(-20deg);
+      animation: shine 2.5s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -120%; }
+      100% { left: 140%; }
+    }
+
+    .footer-hint {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 10px;
+      font-size: 0.78rem;
+      color: #8ecfff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      opacity: 0.9;
+    }
+
+    .footer-hint span.icon {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(109, 171, 214, 0.5);
+      box-shadow: 0 0 5px rgba(0, 211, 255, 0.8);
+      opacity: 0.6;
+      transform: scale(0.9);
+      transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+    }
+
+    .dot.active {
+      background: #4feaff;
+      opacity: 1;
+      transform: scale(1.3);
+    }
+
+    /* Animación de entrada de cada pantalla */
+    .slide.animate {
+      animation: fadeUp 0.7s ease-out;
+    }
+
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Mini juego */
+    .game-wrapper {
+      margin-top: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(112, 232, 255, 0.7);
+      background: radial-gradient(circle at top, rgba(71, 164, 255, 0.35), rgba(0, 7, 26, 0.95));
+      padding: 10px;
+      box-shadow: 0 0 18px rgba(0, 215, 255, 0.7);
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #d7f6ff;
+      margin-bottom: 6px;
+    }
+
+    .badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(163, 244, 255, 0.8);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #b5f4ff;
+    }
+
+    .game-area {
+      position: relative;
+      height: 120px;
+      border-radius: 14px;
+      border: 1px dashed rgba(150, 234, 255, 0.7);
+      overflow: hidden;
+      background: radial-gradient(circle at center, rgba(78, 224, 255, 0.45), rgba(0, 8, 30, 0.96));
+    }
+
+    .orb {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, #ffffff, #4fe6ff 40%, #003c75 85%);
+      box-shadow:
+        0 0 20px rgba(124, 243, 255, 0.9),
+        0 0 40px rgba(0, 171, 255, 0.7);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      color: #012139;
+      user-select: none;
+      touch-action: manipulation;
+      animation: pulseOrb 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pulseOrb {
+      0% { transform: scale(0.95); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(0.95); }
+    }
+
+    .game-message {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #d6f5ff;
+    }
+
+    .game-message strong {
+      color: #87f2ff;
+    }
+
+    .tag-small {
+      font-size: 0.75rem;
+      color: #9addff;
+      margin-top: 6px;
+      opacity: 0.75;
+    }
+
+    /* Botón de sonido */
+    #sound-toggle {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(140, 236, 255, 0.9);
+      background: radial-gradient(circle at top, rgba(139, 242, 255, 0.4), rgba(1, 26, 54, 0.95));
+      color: #e8fcff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 0 16px rgba(88, 233, 255, 0.8);
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #sound-toggle.off {
+      opacity: 0.5;
+      box-shadow: none;
+      border-style: dashed;
+    }
+
+    #sound-toggle span {
+      transform: translateX(1px);
+    }
+
+    @media (max-width: 360px) {
+      .main-title {
+        font-size: 1.1rem;
+      }
+      .main-title span.highlight {
+        font-size: 1.3rem;
+      }
+      .slide {
+        padding: 14px 12px 54px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="bg-overlay"></div>
+
+<button id="sound-toggle" class="off" aria-label="Activar/Desactivar música">
+  <span>🔇</span>
+</button>
+
+<audio id="bg-music" loop>
+  <source src="https://jetta.vgmtreasurechest.com/soundtracks/best-of-nintendo-music/chfeelra/11.%20castlevania%20-%20stage%201.mp3" type="audio/mpeg" />
+</audio>
+
+<div id="app">
+  <div class="card" id="tap-area" data-role="next">
+    <div class="frame"></div>
+    <div class="hk-badge">
+      <img src="https://cdn.wikimg.net/en/hkwiki/images/thumb/b/b1/HK_Welcome_Image.png/500px-HK_Welcome_Image.png" alt="Hollow Knight">
+    </div>
+
+    <div class="header">
+      <div class="avatar">
+        <div class="avatar-inner"></div>
+      </div>
+      <div class="title-block">
+        <div class="label">Invitación interactiva</div>
+        <div class="main-title">
+          <span class="highlight">Alberto&nbsp;Gael</span>
+          <span>15 años</span>
+        </div>
+        <div class="subtitle">Desbloqueando el nivel 15 de la vida 🕹️</div>
+      </div>
+    </div>
+
+    <div class="slide" id="slide">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-kicker" id="slide-kicker"></div>
+          <div class="slide-title" id="slide-title"></div>
+          <div class="slide-text" id="slide-text"></div>
+          <div id="slide-extra"></div>
+        </div>
+        <div>
+          <div class="pill-row" id="pill-row"></div>
+        </div>
+      </div>
+      <img class="slide-bg-icon" src="https://cdn.wikimg.net/en/hkwiki/images/thumb/b/b1/HK_Welcome_Image.png/500px-HK_Welcome_Image.png" alt="HK decorativo">
+      <div class="footer-hint">
+        <span><span class="icon">👆</span> Toca en cualquier parte para avanzar</span>
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Datos de las "pantallas"/slides
+  const slides = [
+    {
+      kicker: "Pantalla 1 · Inicio",
+      title: "¡Hey! Estás invitad@",
+      text: `
+        Se viene algo grande. <strong>Alberto Gael</strong> llega a los <strong>15 años</strong>
+        y quiere que tú seas parte del inicio de esta nueva aventura.
+        <br><br>
+        Prepárate para una noche con buena música, risas, fotos épicas y
+        momentos que se quedan guardados en la memoria… como un buen <em>save</em>.
+      `,
+      pills: ["Modo fiesta: ON", "No es un sueño, es real", "Guardando este momento"]
+    },
+    {
+      kicker: "Pantalla 2 · Level Up",
+      title: "Level 15 unlocked",
+      text: `
+        Porque crecer no es solo cumplir años, es <strong>desbloquear niveles</strong>,
+        aprender trucos nuevos y rodearte de la mejor party.
+        <br><br>
+        Ven a celebrar el <strong>domingo 23 de noviembre</strong>, porque este nivel
+        solo se vive una vez y se juega en modo legendario.
+      `,
+      pills: ["XP al máximo", "Solo vibras chidas", "Nueva misión: disfrutar"]
+    },
+    {
+      kicker: "Pantalla 3 · Hora señalada",
+      title: "Día y hora",
+      text: `
+        <strong>Domingo 23 de noviembre</strong><br>
+        <strong>4:00 de la tarde</strong>
+        <br><br>
+        Llega con tiempo, arma tu mejor entrada y deja que la tarde se convierta
+        en noche mientras la música, las risas y las historias se van escribiendo.
+      `,
+      pills: ["Domingo con flow", "Que no te lo cuenten", "Se arma desde las 4 PM"]
+    },
+    {
+      kicker: "Pantalla 4 · El mapa",
+      title: "Dónde será la misión",
+      text: `
+        La fiesta y la recepción serán en un lugar listo para recibir a la mejor
+        generación de amigos.
+        <br><br>
+        Da clic en el botón para abrir <strong>la ubicación en Google Maps</strong> y
+        dejar listo el camino:
+      `,
+      pills: ["Ubicación lista", "Sin perderse", "Google Maps te guía"],
+      extraType: "map"
+    },
+    {
+      kicker: "Pantalla 5 · Estilo",
+      title: "Dress code",
+      text: `
+        No es una fiesta cualquiera, es el <strong>nivel 15 de Alberto Gael</strong>.
+        <br><br>
+        Ven con tu mejor <strong>outfit</strong>, ese que usarías para guardar una foto
+        de perfil épica: cómodo para bailar, pero con estilo para romperla en cada historia.
+      `,
+      pills: ["Outfit con estilo", "Cómodo pero épico", "Foto de perfil asegurada"]
+    },
+    {
+      kicker: "Pantalla 6 · Mood",
+      title: "Frases para la noche",
+      text: `
+        ✦ <em>“No venimos a pasar el tiempo, venimos a hacer que valga la pena.”</em><br>
+        ✦ <em>“Los mejores recuerdos no se planean, se viven.”</em><br>
+        ✦ <em>“Si hoy no bailas, ¿entonces cuándo?”</em>
+        <br><br>
+        Llega con la mente abierta, buena vibra y ganas de sumar momentos a esta historia.
+      `,
+      pills: ["Modo legendario", "Cero pena, puro baile", "Recuerdos ON"]
+    },
+    {
+      kicker: "Pantalla 7 · La party",
+      title: "¿Quiénes van?",
+      text: `
+        La idea es simple: <strong>banda chida, sin drama y con ganas de pasarla bien</strong>.
+        <br><br>
+        Ven a compartir con Alberto Gael una tarde que se siente como
+        cuando todo el equipo está conectado y nadie se quiere desconectar.
+      `,
+      pills: ["Team Alberto", "Solo buen rollo", "Amistad a otro nivel"]
+    },
+    {
+      kicker: "Pantalla 8 · Mini juego",
+      title: "Reto nivel 15",
+      text: `
+        Antes de seguir, demuestra tus reflejos:
+        <br><br>
+        Toca el <strong>orbe azul</strong> que aparece en el recuadro.
+        Si llegas a <strong>15 puntos</strong>, desbloqueas el mensaje especial de Alberto Gael.
+      `,
+      pills: ["Reflejos ON", "Toques rápidos", "¿Llegas a 15?"],
+      extraType: "game"
+    },
+    {
+      kicker: "Pantalla 9 · Recuerda",
+      title: "No faltes",
+      text: `
+        Apunta bien:
+        <br><br>
+        <strong>Domingo 23 de noviembre · 4:00 PM</strong><br>
+        Fiesta de <strong>15 años de Alberto Gael</strong>.
+        <br><br>
+        Llega con corazón ligero, mente despejada y listo para una noche
+        que se va a sentir corta… pero se va a recordar por años.
+      `,
+      pills: ["Fecha guardada", "Te esperamos", "Que nadie se quede fuera"]
+    },
+    {
+      kicker: "Pantalla 10 · Cierre",
+      title: "Nos vemos ahí",
+      text: `
+        Gracias por llegar hasta aquí. Ahora solo falta lo más importante:
+        <br><br>
+        <strong>Tu presencia.</strong>
+        <br><br>
+        <em>“Las mejores historias no se juegan en solitario, se viven en equipo.”</em>
+        <br><br>
+        Alberto Gael te espera para celebrar este nuevo nivel de su vida.
+      `,
+      pills: ["Fin del loop… o inicio", "Toca para reiniciar", "Historia continúa"]
+    }
+  ];
+
+  const slideEl = document.getElementById("slide");
+  const kickerEl = document.getElementById("slide-kicker");
+  const titleEl = document.getElementById("slide-title");
+  const textEl = document.getElementById("slide-text");
+  const extraEl = document.getElementById("slide-extra");
+  const pillRowEl = document.getElementById("pill-row");
+  const dotsEl = document.getElementById("dots");
+  const tapArea = document.getElementById("tap-area");
+
+  const bgMusic = document.getElementById("bg-music");
+  const soundToggle = document.getElementById("sound-toggle");
+
+  let currentSlide = 0;
+  let musicEnabled = false;
+  let musicTriedOnce = false;
+  let gameScore = 0;
+
+  // Crear los puntos de paginación
+  function renderDots() {
+    dotsEl.innerHTML = "";
+    slides.forEach((_, index) => {
+      const dot = document.createElement("div");
+      dot.classList.add("dot");
+      if (index === currentSlide) dot.classList.add("active");
+      dotsEl.appendChild(dot);
+    });
+  }
+
+  // Renderizar una pantalla
+  function renderSlide(index) {
+    const s = slides[index];
+
+    kickerEl.innerHTML = s.kicker || "";
+    titleEl.innerHTML = s.title || "";
+    textEl.innerHTML = s.text || "";
+
+    // Reinicia extra y pills
+    extraEl.innerHTML = "";
+    pillRowEl.innerHTML = "";
+    gameScore = 0;
+
+    // Animación de entrada
+    slideEl.classList.remove("animate");
+    // Forzar reflow
+    void slideEl.offsetWidth;
+    slideEl.classList.add("animate");
+
+    // Pills
+    if (Array.isArray(s.pills)) {
+      s.pills.forEach((p) => {
+        const pill = document.createElement("div");
+        pill.classList.add("pill");
+        pill.textContent = p;
+        pillRowEl.appendChild(pill);
+      });
+    }
+
+    // Extra: mapa o juego
+    if (s.extraType === "map") {
+      renderMapExtra();
+    } else if (s.extraType === "game") {
+      renderGameExtra();
+    }
+
+    renderDots();
+  }
+
+  function renderMapExtra() {
+    const wrapper = document.createElement("div");
+    const link = document.createElement("a");
+    link.href = "https://maps.app.goo.gl/Ksv3Xfwp2p5hXAf1A?g_st=aw";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = "map-button";
+    link.innerHTML = `
+      <span class="icon">📍</span>
+      <span>Ver ubicación en Google Maps</span>
+    `;
+    wrapper.appendChild(link);
+
+    const note = document.createElement("div");
+    note.className = "tag-small";
+    note.innerHTML = "Tip: abre el mapa y guarda la ubicación para llegar sin perderte.";
+    wrapper.appendChild(note);
+
+    extraEl.appendChild(wrapper);
+  }
+
+  function renderGameExtra() {
+    const wrapper = document.createElement("div");
+    wrapper.className = "game-wrapper";
+
+    const header = document.createElement("div");
+    header.className = "game-header";
+    header.innerHTML = `
+      <div>Puntuación: <strong id="score-value">0</strong> / 15</div>
+      <div class="badge">Mini reto</div>
+    `;
+    wrapper.appendChild(header);
+
+    const gameArea = document.createElement("div");
+    gameArea.className = "game-area";
+    gameArea.id = "game-area";
+    wrapper.appendChild(gameArea);
+
+    const message = document.createElement("div");
+    message.className = "game-message";
+    message.id = "game-message";
+    message.innerHTML = `
+      Toca el orbe cada vez que aparezca. <strong>Mientras más rápido, mejor.</strong>
+    `;
+    wrapper.appendChild(message);
+
+    const tag = document.createElement("div");
+    tag.className = "tag-small";
+    tag.textContent = "Cuando llegues a 15, verás un mensaje especial para Alberto Gael.";
+    wrapper.appendChild(tag);
+
+    extraEl.appendChild(wrapper);
+
+    spawnOrb();
+  }
+
+  function spawnOrb() {
+    const gameArea = document.getElementById("game-area");
+    if (!gameArea) return;
+
+    // Limpia cualquier orbe anterior
+    gameArea.innerHTML = "";
+
+    const orb = document.createElement("div");
+    orb.className = "orb";
+    orb.textContent = "+1";
+    orb.setAttribute("data-role", "orb"); // Para que el tap global no avance de slide
+
+    const areaRect = gameArea.getBoundingClientRect();
+    const orbSize = 36;
+
+    const maxX = areaRect.width - orbSize - 6;
+    const maxY = areaRect.height - orbSize - 6;
+    const x = Math.random() * maxX + 3;
+    const y = Math.random() * maxY + 3;
+
+    orb.style.left = x + "px";
+    orb.style.top = y + "px";
+
+    orb.addEventListener("click", onOrbTap);
+    orb.addEventListener("touchstart", function (e) {
+      e.preventDefault();
+      onOrbTap(e);
+    }, { passive: false });
+
+    gameArea.appendChild(orb);
+  }
+
+  function onOrbTap(event) {
+    event.stopPropagation();
+    const scoreEl = document.getElementById("score-value");
+    const messageEl = document.getElementById("game-message");
+    if (!scoreEl || !messageEl) return;
+
+    gameScore++;
+    scoreEl.textContent = gameScore.toString();
+
+    if (gameScore >= 15) {
+      messageEl.innerHTML = `
+        <strong>¡Lograste el nivel 15! 🎉</strong><br>
+        Igual que Alberto Gael: listo para una nueva etapa, rodeado de buena banda
+        y con mil historias por vivir.
+      `;
+    } else if (gameScore >= 8) {
+      messageEl.innerHTML = `
+        Vas en <strong>${gameScore}</strong>. Ya casi, no te rindas. <br>
+        Así se siente subir de nivel: toque a toque.
+      `;
+    } else if (gameScore >= 4) {
+      messageEl.innerHTML = `
+        Llevas <strong>${gameScore}</strong> puntos. <br>
+        Los reflejos están finos, sigue así.
+      `;
+    }
+
+    // Vuelve a aparecer el orbe en otra posición
+    spawnOrb();
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    renderSlide(currentSlide);
+  }
+
+  // Tap/click global para avanzar (excepto en elementos que no deben)
+  function onGlobalTap(event) {
+    const target = event.target;
+    // Si tocamos algo con data-role="orb", no avanza de pantalla (es el juego)
+    if (target && target.getAttribute && target.getAttribute("data-role") === "orb") {
+      return;
+    }
+    // Solo avanzamos si el área tiene data-role="next" (evitamos que el botón de mapa cuente)
+    let node = target;
+    let shouldAdvance = false;
+    while (node) {
+      if (node === tapArea && node.getAttribute("data-role") === "next") {
+        shouldAdvance = true;
+        break;
+      }
+      if (node === document.body) break;
+      node = node.parentElement;
+    }
+    if (!shouldAdvance) return;
+
+    // Intenta iniciar música al primer tap
+    if (!musicTriedOnce) {
+      tryPlayMusic();
+      musicTriedOnce = true;
+    }
+
+    nextSlide();
+  }
+
+  // Música
+  function tryPlayMusic() {
+    if (!bgMusic) return;
+    if (!musicEnabled) {
+      bgMusic.play().then(() => {
+        musicEnabled = true;
+        soundToggle.classList.remove("off");
+        soundToggle.querySelector("span").textContent = "🔊";
+      }).catch(() => {
+        // Navegador no permite aún, se intentará de nuevo cuando el usuario toque el botón
+      });
+    }
+  }
+
+  soundToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (!bgMusic) return;
+
+    if (!musicEnabled) {
+      bgMusic.play().then(() => {
+        musicEnabled = true;
+        soundToggle.classList.remove("off");
+        soundToggle.querySelector("span").textContent = "🔊";
+      }).catch(() => {
+        // Si falla, mantenemos el ícono en mute
+        musicEnabled = false;
+        soundToggle.classList.add("off");
+        soundToggle.querySelector("span").textContent = "🔇";
+      });
+    } else {
+      bgMusic.pause();
+      musicEnabled = false;
+      soundToggle.classList.add("off");
+      soundToggle.querySelector("span").textContent = "🔇";
+    }
+  });
+
+  tapArea.addEventListener("click", onGlobalTap);
+  tapArea.addEventListener("touchstart", function (e) {
+    // Evita doble disparo click+touch
+    e.preventDefault();
+    onGlobalTap(e);
+  }, { passive: false });
+
+  // Navegación con espacio o flecha derecha en computadora
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space" || e.code === "ArrowRight") {
+      e.preventDefault();
+      nextSlide();
+    }
+  });
+
+  // Inicializa
+  renderDots();
+  renderSlide(currentSlide);
+</script>
+
+</body>
+</html>
