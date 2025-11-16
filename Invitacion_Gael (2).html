@@ -32,15 +32,50 @@
       filter: blur(3px) brightness(0.85);
       transform: scale(1.05);
       animation: floatBg 18s ease-in-out infinite alternate;
-      z-index: -2;
+      z-index: -3;
     }
 
     .bg-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, rgba(0, 180, 255, 0.35), transparent 50%),
-                  radial-gradient(circle at bottom, rgba(3, 10, 40, 0.95), #020615 80%);
+      background: radial-gradient(circle at top, rgba(0, 180, 255, 0.35), transparent 55%),
+                  radial-gradient(circle at bottom, rgba(3, 10, 40, 0.98), #020615 80%);
+      z-index: -2;
+    }
+
+    /* Partículas/destellos */
+    .stars-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
       z-index: -1;
+    }
+
+    .star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #ffffff, #8cf3ff 60%, transparent 70%);
+      opacity: 0.0;
+      box-shadow:
+        0 0 6px rgba(140, 243, 255, 0.9),
+        0 0 12px rgba(0, 180, 255, 0.8);
+      animation: twinkle 4s ease-in-out infinite;
+    }
+
+    .star.small {
+      width: 2px;
+      height: 2px;
+      animation-duration: 3.5s;
+    }
+
+    @keyframes twinkle {
+      0%, 20% { opacity: 0; transform: scale(0.4); }
+      40%     { opacity: 0.8; transform: scale(1); }
+      60%     { opacity: 1; transform: scale(1.2); }
+      100%    { opacity: 0; transform: scale(0.4); }
     }
 
     @keyframes floatBg {
@@ -79,9 +114,11 @@
       position: absolute;
       inset: 10px;
       border-radius: 20px;
-      border: 1px solid rgba(96, 232, 255, 0.18);
+      border: 1px solid rgba(96, 232, 255, 0.26);
       pointer-events: none;
-      box-shadow: 0 0 20px rgba(0, 226, 255, 0.18) inset;
+      box-shadow:
+        0 0 20px rgba(0, 226, 255, 0.25) inset,
+        0 0 30px rgba(0, 175, 255, 0.25);
     }
 
     .hk-badge {
@@ -89,7 +126,7 @@
       top: -40px;
       right: -40px;
       width: 140px;
-      opacity: 0.2;
+      opacity: 0.22;
       transform: rotate(-12deg);
       pointer-events: none;
     }
@@ -166,7 +203,7 @@
       margin-top: 8px;
       flex: 1;
       border-radius: 20px;
-      background: radial-gradient(circle at top, rgba(49, 117, 255, 0.16), rgba(0, 8, 24, 0.95));
+      background: radial-gradient(circle at top, rgba(49, 117, 255, 0.2), rgba(0, 8, 24, 0.97));
       padding: 16px 14px 56px;
       position: relative;
       overflow: hidden;
@@ -187,7 +224,7 @@
       bottom: -10px;
       right: -18px;
       width: 120px;
-      opacity: 0.1;
+      opacity: 0.12;
       filter: grayscale(1) drop-shadow(0 0 20px rgba(0, 188, 255, 0.8));
       transform: rotate(8deg);
     }
@@ -234,7 +271,9 @@
       font-size: 0.72rem;
       color: #bfe9ff;
       background: linear-gradient(120deg, rgba(0, 61, 115, 0.8), rgba(6, 21, 60, 0.9));
-      box-shadow: 0 0 6px rgba(0, 186, 255, 0.4);
+      box-shadow:
+        0 0 6px rgba(0, 186, 255, 0.4),
+        0 0 14px rgba(0, 240, 255, 0.35);
       white-space: nowrap;
     }
 
@@ -251,7 +290,9 @@
       font-size: 0.86rem;
       font-weight: 600;
       text-decoration: none;
-      box-shadow: 0 0 16px rgba(0, 238, 255, 0.7);
+      box-shadow:
+        0 0 16px rgba(0, 238, 255, 0.8),
+        0 0 28px rgba(0, 161, 255, 0.8);
       position: relative;
       overflow: hidden;
     }
@@ -339,9 +380,11 @@
       margin-top: 10px;
       border-radius: 18px;
       border: 1px solid rgba(112, 232, 255, 0.7);
-      background: radial-gradient(circle at top, rgba(71, 164, 255, 0.35), rgba(0, 7, 26, 0.95));
+      background: radial-gradient(circle at top, rgba(71, 164, 255, 0.4), rgba(0, 7, 26, 0.97));
       padding: 10px;
-      box-shadow: 0 0 18px rgba(0, 215, 255, 0.7);
+      box-shadow:
+        0 0 18px rgba(0, 215, 255, 0.9),
+        0 0 30px rgba(0, 150, 255, 0.8);
     }
 
     .game-header {
@@ -462,6 +505,7 @@
 
 <div class="bg"></div>
 <div class="bg-overlay"></div>
+<div class="stars-layer" id="stars-layer"></div>
 
 <button id="sound-toggle" class="off" aria-label="Activar/Desactivar música">
   <span>🔇</span>
@@ -523,7 +567,7 @@
         Se viene algo grande. <strong>Alberto Gael</strong> llega a los <strong>15 años</strong>
         y quiere que tú seas parte del inicio de esta nueva aventura.
         <br><br>
-        Prepárate para una noche con buena música, risas, fotos épicas y
+        Prepárate para una tarde-noche con buena música, risas, fotos épicas y
         momentos que se quedan guardados en la memoria… como un buen <em>save</em>.
       `,
       pills: ["Modo fiesta: ON", "No es un sueño, es real", "Guardando este momento"]
@@ -550,7 +594,7 @@
         Llega con tiempo, arma tu mejor entrada y deja que la tarde se convierta
         en noche mientras la música, las risas y las historias se van escribiendo.
       `,
-      pills: ["Domingo con flow", "Que no te lo cuenten", "Se arma desde las 4 PM"]
+      pills: ["Domingo con flow", "Que no te lo cuenten", "Se arma desde las 5 PM"]
     },
     {
       kicker: "Pantalla 4 · El mapa",
@@ -652,11 +696,41 @@
 
   const bgMusic = document.getElementById("bg-music");
   const soundToggle = document.getElementById("sound-toggle");
+  const starsLayer = document.getElementById("stars-layer");
 
   let currentSlide = 0;
   let musicEnabled = false;
   let musicTriedOnce = false;
   let gameScore = 0;
+
+  // Crear partículas de destellos
+  function createStars(count = 22) {
+    if (!starsLayer) return;
+    starsLayer.innerHTML = "";
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+      if (Math.random() > 0.6) star.classList.add("small");
+
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      const delay = Math.random() * 6;
+      const duration = 3.5 + Math.random() * 3;
+
+      star.style.left = x + "px";
+      star.style.top = y + "px";
+      star.style.animationDelay = delay + "s";
+      star.style.animationDuration = duration + "s";
+
+      starsLayer.appendChild(star);
+    }
+  }
+
+  createStars();
+  window.addEventListener("resize", () => createStars());
 
   // Crear los puntos de paginación
   function renderDots() {
@@ -684,7 +758,6 @@
 
     // Animación de entrada
     slideEl.classList.remove("animate");
-    // Forzar reflow
     void slideEl.offsetWidth;
     slideEl.classList.add("animate");
 
@@ -710,8 +783,9 @@
 
   function renderMapExtra() {
     const wrapper = document.createElement("div");
+
     const link = document.createElement("a");
-    link.href = "https://maps.app.goo.gl/Ksv3Xfwp2p5hXAf1A?g_st=aw";
+    link.href = "https://maps.app.goo.gl/Px8doZaNEuAPXuN88?g_st=aw";
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.className = "map-button";
@@ -719,6 +793,15 @@
       <span class="icon">📍</span>
       <span>Ver ubicación en Google Maps</span>
     `;
+
+    // 🔥 Clave: que el toque NO avance de pantalla
+    link.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+    link.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
+    });
+
     wrapper.appendChild(link);
 
     const note = document.createElement("div");
@@ -768,13 +851,12 @@
     const gameArea = document.getElementById("game-area");
     if (!gameArea) return;
 
-    // Limpia cualquier orbe anterior
     gameArea.innerHTML = "";
 
     const orb = document.createElement("div");
     orb.className = "orb";
     orb.textContent = "+1";
-    orb.setAttribute("data-role", "orb"); // Para que el tap global no avance de slide
+    orb.setAttribute("data-role", "orb");
 
     const areaRect = gameArea.getBoundingClientRect();
     const orbSize = 36;
@@ -823,7 +905,6 @@
       `;
     }
 
-    // Vuelve a aparecer el orbe en otra posición
     spawnOrb();
   }
 
@@ -835,11 +916,9 @@
   // Tap/click global para avanzar (excepto en elementos que no deben)
   function onGlobalTap(event) {
     const target = event.target;
-    // Si tocamos algo con data-role="orb", no avanza de pantalla (es el juego)
     if (target && target.getAttribute && target.getAttribute("data-role") === "orb") {
       return;
     }
-    // Solo avanzamos si el área tiene data-role="next" (evitamos que el botón de mapa cuente)
     let node = target;
     let shouldAdvance = false;
     while (node) {
@@ -852,7 +931,6 @@
     }
     if (!shouldAdvance) return;
 
-    // Intenta iniciar música al primer tap
     if (!musicTriedOnce) {
       tryPlayMusic();
       musicTriedOnce = true;
@@ -870,7 +948,7 @@
         soundToggle.classList.remove("off");
         soundToggle.querySelector("span").textContent = "🔊";
       }).catch(() => {
-        // Navegador no permite aún, se intentará de nuevo cuando el usuario toque el botón
+        // Si el navegador bloquea el autoplay, se podrá activar con el botón
       });
     }
   }
@@ -885,7 +963,6 @@
         soundToggle.classList.remove("off");
         soundToggle.querySelector("span").textContent = "🔊";
       }).catch(() => {
-        // Si falla, mantenemos el ícono en mute
         musicEnabled = false;
         soundToggle.classList.add("off");
         soundToggle.querySelector("span").textContent = "🔇";
@@ -900,12 +977,10 @@
 
   tapArea.addEventListener("click", onGlobalTap);
   tapArea.addEventListener("touchstart", function (e) {
-    // Evita doble disparo click+touch
     e.preventDefault();
     onGlobalTap(e);
   }, { passive: false });
 
-  // Navegación con espacio o flecha derecha en computadora
   document.addEventListener("keydown", (e) => {
     if (e.code === "Space" || e.code === "ArrowRight") {
       e.preventDefault();
@@ -913,7 +988,6 @@
     }
   });
 
-  // Inicializa
   renderDots();
   renderSlide(currentSlide);
 </script>
